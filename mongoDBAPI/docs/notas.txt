@@ -1,0 +1,91 @@
+MongoDB
+
+Comparativa con SQL:
+
+SQL			          MongoDB
+base de datos	->	base de datos
+tablas		    ->	colleciones
+filas	      	->	documentos
+columnas    	->	campos
+
+Comandos básicos:
+
+Para entrar a el shell de mongo ejecutar >mongo
+
+Una vez dentro de la shell podemos hacer muchas cosas como ver el estado de las bases de datos, acceder a ellas, etc.
+Para conocer todo lo que podemos hacer está el manual de la shel de mongo:
+
+https://docs.mongodb.org/manual/reference/mongo-shell/
+
+Lo más básico:
+
+
+Para ver las bases de datos: show dbs
+
+Para usar una base de datos: use <nombre dbs>, dará como resultado switched to db <nombre dbs>
+
+Este comando también se usa para crear una base de datos.
+
+Para ver las colecciones de una base de datos : show collections
+
+
+
+Lo más básico 2:
+
+Para crear una colección dentro de una base de datos podemos usar createCollection
+
+> db.createCollection("temperaturas2")
+{ "ok" : 1 }
+> show collections
+nueva_coleccion
+restaurants
+system.indexes
+temperaturas
+temperaturas2
+tmps
+
+Aunque si no exite e intentamos introducir un documento dentro de ella no saldrá ningún error
+y se insertará el documento a la vez que se crea.
+
+Para ver los documentos registrados en una collección podemos usar find()
+
+
+Introducimos un dato más:
+
+> db.temperaturas.insert({tmp:"22.4", date:"16:30"})
+WriteResult({ "nInserted" : 1 })
+
+
+Los mostramos:
+
+> db.temperaturas.find()
+{ "_id" : ObjectId("56708ad7b46a6666ed969548"), "tmp" : "25.4", "date" : "15:30" }
+{ "_id" : ObjectId("56708c1eb46a6666ed969549"), "tmp" : "22.4", "date" : "16:30" }
+
+Además de los datos que hemos introducido en nuestros documentos encontramos un id por cada uno, este id
+es como la clave única que todo documento tiene que tener y óbviamente tiene que ser único.
+Este campo id no se puede modificar (como el resto) y la unica manear de modificarlo es borrar el docuemnto
+y crearlo otra vez.
+
+
+
+
+
+Imaginemos que tenemos una colección a la que llamamos
+personas, un documento podría tener la siguiente forma:
+{
+  Nombre: "Pedro",
+  Apellidos: "Martínez Campo",
+  Edad: 22,
+  Aficiones: ["fútbol","tenis","ciclismo"],
+  Amigos: [
+   {
+     Nombre:"María",
+     Edad:22
+   },
+   {
+     Nombre:"Luis",
+     Edad:28
+   }
+  ]
+}
