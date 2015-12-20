@@ -15,6 +15,7 @@ from hardwareAPI.api import *
 Para obtener el tiempo con el formato que nos interesa en este momento.
 '''
 def getTmp():
+    #Buscamos la temperatura media.
     return getTemperaturaMediaSensor1()
     #return '150.5'
 
@@ -30,10 +31,15 @@ def medirYAlmacenar():
     medidaMuestra={}
     #No insertaremos el id, dejaremos que sea mongo quien lo haga por nosotros.
     #medidaMuestra['_id']=str(3723)
-    medidaMuestra['tmp']=getTmp()
-    medidaMuestra['date']=getTimeNow()
-    print "Insertado "+ str(medidaMuestra)
-    insertarDato(medidaMuestra)
+    tmp=getTmp()
+    #A veces al principio las medidas dar error al arrancar.
+    if tmp!='valor no tomado':
+	    medidaMuestra['tmp']=getTmp()
+	    medidaMuestra['date']=getTimeNow()
+    	    print "Insertado "+ str(medidaMuestra)
+            insertarDato(medidaMuestra)
+    else:
+ 	print 'Error de medicion inicial'
     #coleccion.insert(medidaMuestra)
 
 
@@ -47,7 +53,7 @@ def capturaPeriodica():
         print("tomando DATO")
         medirYAlmacenar()
         #Especificamos el tiempo de espera entre medidas
-        time.sleep(30)
+        time.sleep(60)
 
 if __name__=="__main__":
 

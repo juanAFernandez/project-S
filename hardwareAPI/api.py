@@ -3,22 +3,24 @@ import serial
 import time
 
 #Variable global
-puertoSerial = '/dev/ttyACM1'
+puertoSerial = '/dev/ttyACM0'
 '''
-
 Conecta con el hardware y le envía un comando que que el código que hay en arduino
 sepa lo que le estamos pidiengo y nos devuelva la temperatura medida de un sensor.
+
+
+
 '''
 def getTemperaturaSensor1():
 
     #Nos conectamos al puerto SERIAL donde está arduino.
-    arduino = serial.Serial(puertoSerial, baudrate=9600, timeout=3.0)
-    arduino.close()
+    arduino = serial.Serial(puertoSerial, baudrate=9600)
+    #arduino.close()
     arduino.open()
     resultado=''
     #Le enviamos a arduino el comando S1 que el recibirá e interpretará como la tmp del sensor 1
     arduino.write('a')
-    time.sleep(1)
+    time.sleep(0.5)
     txt=''
     while arduino.inWaiting() > 0:
         txt += arduino.read(1)
@@ -36,7 +38,7 @@ def getTemperaturaMediaSensor1():
 
     #Nos conectamos al puerto SERIAL donde está arduino.
     arduino = serial.Serial(puertoSerial, 9600)
-    arduino.close()
+    #arduino.close()
     arduino.open()
     #Le enviamos a arduino el comando S1 que el recibirá e interpretará como la tmp del sensor 1
     arduino.write('b')
@@ -46,6 +48,8 @@ def getTemperaturaMediaSensor1():
         txt += arduino.read(1)
     arduino.close()
     if txt!='':
+	#print "heere"
+	#print "here"+txt+str(len(txt))
         return float(txt)
     else:
         txt='valor no tomado'
@@ -72,6 +76,6 @@ if __name__=="__main__":
         print '2 : lecturaTemperaturaMediaSensor1 '
         comando = raw_input()
         if comando=='1':
-            print str(getTemperaturaSensor1())+'º'
+            print str(getTemperaturaSensor1())
         if comando=='2':
-            print str(getTemperaturaMediaSensor1())+'º'
+            print str(getTemperaturaMediaSensor1())
